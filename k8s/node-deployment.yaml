@@ -1,0 +1,39 @@
+# ================================
+# Deployment do backend Node.js
+# ================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app
+spec:
+  replicas: 1  # apenas um pod
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+      - name: node-app
+        image: monitoramento-back:latest
+        imagePullPolicy: Never   
+        ports:
+        - containerPort: 3123
+---
+# ================================
+# Service para expor o Node.js
+# ================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-service
+spec:
+  selector:
+    app: node-app
+  ports:
+    - protocol: TCP
+      port: 3123
+      targetPort: 3123
+  type: ClusterIP

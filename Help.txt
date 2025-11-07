@@ -1,0 +1,179 @@
+
+# 🧩 HELP.txt  
+## PROJETO: Monitoramento — Node.js + Prometheus + Grafana + NGINX + Kubernetes (Minikube)
+
+---
+
+## 📘 DESCRIÇÃO GERAL
+
+Este projeto implementa um ambiente completo de **monitoramento de uma aplicação Node.js** dentro do **Kubernetes (via Minikube)**.  
+O sistema conta com:
+- **Node.js (Backend)** → Gera uma métrica personalizada `app_request_total` acessível em `/metrics`
+- **Prometheus** → Coleta métricas da aplicação
+- **Grafana** → Cria dashboards a partir das métricas coletadas
+- **NGINX (proxy reverso)** → Faz o redirecionamento de requisições HTTP
+- **Kubernetes + Minikube** → Orquestra todos os containers e serviços
+
+---
+
+## 🧰 PRÉ-REQUISITOS
+
+Antes de rodar o projeto em outra máquina, é necessário:
+
+1. **Instalar o Docker Desktop**
+   - https://www.docker.com/products/docker-desktop/
+   - Ativar o **WSL2** (no Windows)
+
+2. **Instalar o Minikube**
+   - https://minikube.sigs.k8s.io/docs/start/
+   - Testar a instalação:
+     ```bash
+     minikube version
+     ```
+
+3. **Instalar o Kubectl**
+   - https://kubernetes.io/docs/tasks/tools/
+   - Testar:
+     ```bash
+     kubectl version --client
+     ```
+
+4. **Node.js e NPM** (para testar o backend separadamente, se quiser)
+   - https://nodejs.org/en/
+   - Testar:
+     ```bash
+     node -v
+     npm -v
+     ```
+
+---
+
+## ⚙️ ESTRUTURA DO PROJETO
+
+```
+Adrian/
+│
+├── server.js                # Backend Node.js com métrica personalizada
+├── package.json             # Dependências do projeto Node
+│
+├── nginx/
+│   ├── default.conf         # Configuração do proxy reverso NGINX
+│   └── Dockerfile           # Criação da imagem do NGINX
+│
+├── k8s/
+│   ├── node-deployment.yaml # Deployment e Service do Node.js
+│   ├── prometheus.yaml      # Configuração do Prometheus
+│   ├── prometheus-deployment.yaml
+│   ├── grafana-deployment.yaml
+│   ├── nginx-deployment.yaml
+│   └── nginx-service.yaml
+│
+└── HELP.txt                 # Este arquivo de instruções
+```
+
+---
+
+## 🚀 PASSO A PASSO PARA EXECUTAR
+
+### 1️⃣ Iniciar o Minikube
+```powershell
+minikube start --driver=docker
+```
+
+### 2️⃣ Conectar o Docker local ao Minikube
+```powershell
+& minikube -p minikube docker-env | Invoke-Expression
+```
+
+### 3️⃣ Construir a imagem do backend Node.js
+```powershell
+docker build -t monitoramento-back ./back
+docker images
+```
+
+### 4️⃣ Aplicar os manifests do Kubernetes
+```powershell
+kubectl apply -f ./k8s/
+```
+
+### 5️⃣ Verificar se os pods estão ativos
+```powershell
+kubectl get pods
+```
+
+### 6️⃣ Acessar os serviços
+
+| Serviço        | Comando para abrir | Porta / Caminho |
+|----------------|-------------------|----------------|
+| **Node.js (backend)** | `minikube service node-service` | `/` e `/metrics` |
+| **Prometheus** | `minikube service prometheus-service` | Porta 9090 |
+| **Grafana** | `minikube service grafana-service` | Porta 3000 |
+| **NGINX** | `minikube service nginx-service` | Porta 8080 |
+
+### 7️⃣ Validar Métrica no Prometheus
+```
+app_request_total{instance="node-service:3123", job="node-app"}
+```
+
+### 8️⃣ Criar Dashboard no Grafana
+1. Acesse o Grafana (`minikube service grafana-service`)
+2. Login padrão:
+   ```
+   Usuário: admin
+   Senha: admin
+   ```
+3. Vá em **Connections → Data Sources → Add data source → Prometheus**
+4. Configure o campo **URL** como:
+   ```
+   http://prometheus-service:9090
+   ```
+5. Clique em **Save & Test**
+
+Crie um painel:
+- **New Dashboard → Add Visualization**
+- **Data source:** Prometheus  
+- **Query:** `app_request_total`
+- **Visualização:** Time series
+- **Título:** “Requisições Processadas (Node.js)”
+
+---
+
+## 🧱 COMO FUNCIONA CADA COMPONENTE
+
+### 🟩 Node.js
+Servidor backend com rota `/metrics`, expondo métricas Prometheus.
+
+### 🟨 Prometheus
+Lê o `prometheus.yml` e coleta as métricas do `node-service`.
+
+### 🟦 Grafana
+Conecta-se ao Prometheus e gera visualizações.
+
+### 🟥 NGINX
+Proxy reverso redirecionando `/` para o backend Node.js.
+
+---
+
+## 🔄 COMO RODAR EM OUTRA MÁQUINA (RESUMO)
+
+```bash
+minikube start --driver=docker
+& minikube -p minikube docker-env | Invoke-Expression
+docker build -t monitoramento-back ./back
+kubectl apply -f ./k8s/
+```
+
+Acesse:
+- Node.js → `minikube service node-service`
+- Prometheus → `minikube service prometheus-service`
+- Grafana → `minikube service grafana-service`
+- NGINX → `minikube service nginx-service`
+
+---
+
+## ✅ RESULTADO FINAL
+
+- O **Grafana** exibe o gráfico `app_request_total` com requisições do Node.js.  
+- O **Prometheus** coleta métricas automaticamente.  
+- O **NGINX** atua como proxy reverso.  
+- Tudo roda dentro do **Minikube**, simulando um cluster real.
