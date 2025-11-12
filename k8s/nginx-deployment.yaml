@@ -1,6 +1,4 @@
-# ================================
-# Deployment e Service do NGINX
-# ================================
+# Deployment + Service do NGINX proxy reverso
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,10 +14,10 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: nginx
-        image: nginx-proxy:latest
-        ports:
-        - containerPort: 80
+        - name: nginx
+          image: anttonys/nginx-proxy:latest   # tua imagem publicada
+          ports:
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -32,4 +30,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: LoadBalancer
+  type: NodePort

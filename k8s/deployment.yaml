@@ -1,3 +1,4 @@
+# Mesmo propósito do node-app.yaml; mantive para compatibilidade com teu projeto
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,7 +15,20 @@ spec:
     spec:
       containers:
         - name: monitor
-          image: monitor:latest
-          imagePullPolicy: Never 
+          image: anttonys/monitor:latest   # usa teu Docker Hub
+          imagePullPolicy: IfNotPresent
           ports:
-          - containerPort: 3000
+            - containerPort: 3000          # se teu app escuta 3123, ajuste aqui e no Service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: monitor-service
+spec:
+  selector:
+    app: monitor
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP

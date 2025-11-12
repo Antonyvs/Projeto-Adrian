@@ -1,7 +1,10 @@
+# Prometheus scraping a cada 5s
 global:
   scrape_interval: 5s
 
 scrape_configs:
+  # Coletar métricas do teu app Node dentro do CLUSTER
   - job_name: 'node-app'
     static_configs:
-      - targets: ['host.docker.internal:3123']
+      # IMPORTANTE: usa o Service do Kubernetes, não localhost
+      - targets: ['node-service:3123']

@@ -1,6 +1,4 @@
-# ================================
-# Configuração do Prometheus
-# ================================
+# ConfigMap com o prometheus.yml acima
 apiVersion: v1
 kind: ConfigMap
 metadata:

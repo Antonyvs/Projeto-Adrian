@@ -1,7 +1,4 @@
-# ================================
-# Deployment e Service do Grafana
-# ================================
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana
@@ -16,10 +13,66 @@ spec:
         app: grafana
     spec:
       containers:
-      - name: grafana
-        image: grafana/grafana:latest
-        ports:
-        - containerPort: 3000
+        - name: grafana
+          image: grafana/grafana:latest  # imagem oficial do Grafana
+          ports:
+            - containerPort: 3000        # porta interna do container
+          env:
+            # credenciais iniciais; você já usa admin/admin
+            - name: GF_SECURITY_ADMIN_USER
+              value: admin
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: admin
+
+          # Probes para saúde e disponibilidade do pod
+          readinessProbe:
+            httpGet:
+              path: /login             # endpoint simples que responde 200 quando pronto
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+
+          livenessProbe:
+            httpGet:
+              path: /api/health        # responde 200 quando o servidor está vivo
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          # Requests/limits para evitar sobrecarga do node
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          volumeMounts:
+            # PVC para persistir dados (dashboards, usuários, etc.)
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
+
+            # Provisioning de data sources (ConfigMap que você já criou)
+            - name: grafana-datasources
+              mountPath: /etc/grafana/provisioning/datasources
+              readOnly: true
+
+      volumes:
+        # PVC criado como grafana-pvc (Bound) — mantém os dados ao reiniciar
+        - name: grafana-storage
+          persistentVolumeClaim:
+            claimName: grafana-pvc
+
+        # ConfigMap com a datasource Prometheus provisionada
+        - name: grafana-datasources
+          configMap:
+            name: grafana-datasource
+
 ---
 apiVersion: v1
 kind: Service
@@ -29,7 +82,7 @@ spec:
   selector:
     app: grafana
   ports:
-    - protocol: TCP
-      port: 3000
-      targetPort: 3000
-  type: NodePort
+    - port: 3000       # porta do serviço dentro do cluster
+      targetPort: 3000 # leva até a porta do container
+      protocol: TCP
+  # type omitido = ClusterIP (padrão). Use `minikube service grafana-service` para abrir no navegador.
