@@ -3,30 +3,25 @@
 on:
   workflow_run:
     workflows: ["CI - Build & Push Docker"]
-    types: [completed]
+    types:
+      - completed
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set KUBECONFIG from secret
+      - name: Configure kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: latest
+
+      - name: Set up Kubeconfig
         run: |
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/kubeconfig
-          echo "KUBECONFIG=$HOME/kubeconfig" >> $GITHUB_ENV
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
 
-      - name: Show kubectl version
-        run: kubectl version --client=true
-
-      - name: Apply k8s manifests
+      - name: Deploy to Kubernetes
         run: |
           kubectl apply -f k8s/
-
-      - name: Check rollouts (monitor, nginx)
-        run: |
-          kubectl rollout status deployment/monitor --timeout=180s || true
-          kubectl rollout status deployment/nginx --timeout=180s || true
