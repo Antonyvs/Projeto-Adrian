@@ -20,22 +20,25 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Configure kubeconfig
-        shell: bash
+      - name: Configurar kubeconfig
+        shell: powershell
         run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > ~/.kube/config
-          echo "✅ Kubeconfig criado em ~/.kube/config"
+          $path = "$HOME\.kube"
+          if (!(Test-Path $path)) { New-Item -ItemType Directory -Force -Path $path | Out-Null }
+          [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("${{ secrets.KUBE_CONFIG }}")) | Out-File "$path\config" -Encoding utf8
+          Write-Host "✅ Kubeconfig criado em $path\config"
           kubectl config get-contexts
 
-      - name: Testar conexão com cluster
+      - name: Testar conexão com o cluster
+        shell: powershell
         run: |
-          kubectl cluster-info || exit 1
+          kubectl cluster-info
           kubectl get nodes
 
-      - name: Aplicar manifests Kubernetes
+      - name: Aplicar manifests do Kubernetes
+        shell: powershell
         run: |
           kubectl apply -f k8s/ --validate=false
-          kubectl rollout status deployment/monitor || true
-          kubectl rollout status deployment/nginx || true
+          kubectl rollout status deployment/monitor || exit 0
+          kubectl rollout status deployment/nginx || exit 0
           kubectl get pods -o wide
