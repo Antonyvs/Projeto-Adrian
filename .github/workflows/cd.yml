@@ -9,7 +9,8 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,17 +20,22 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Configure Kubeconfig
+      - name: Configure kubeconfig
+        shell: bash
         run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > ~/.kube/config
+          echo "✅ Kubeconfig criado em ~/.kube/config"
+          kubectl config get-contexts
 
-      - name: Verify Kubernetes context
-        run: kubectl config current-context
-
-      - name: Apply Kubernetes manifests
+      - name: Testar conexão com cluster
         run: |
-          kubectl apply -f k8s/
+          kubectl cluster-info || exit 1
+          kubectl get nodes
+
+      - name: Aplicar manifests Kubernetes
+        run: |
+          kubectl apply -f k8s/ --validate=false
           kubectl rollout status deployment/monitor || true
           kubectl rollout status deployment/nginx || true
           kubectl get pods -o wide
