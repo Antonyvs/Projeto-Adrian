@@ -1,0 +1,3552 @@
+[2025-11-13 16:15:51Z INFO HostContext] No proxy settings were found based on environmental variables (http_proxy/https_proxy/HTTP_PROXY/HTTPS_PROXY)
+[2025-11-13 16:15:51Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:51Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:51Z INFO HostContext] Well known config file 'Credentials': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.credentials'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known config file 'Runner': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.runner'
+[2025-11-13 16:15:52Z INFO Worker] Version: 2.329.0
+[2025-11-13 16:15:52Z INFO Worker] Commit: c76c59996c8fa32e989164a5a695efb12608ae5a
+[2025-11-13 16:15:52Z INFO Worker] Culture: pt-BR
+[2025-11-13 16:15:52Z INFO Worker] UI Culture: pt-BR
+[2025-11-13 16:15:52Z INFO Worker] Waiting to receive the job message from the channel.
+[2025-11-13 16:15:52Z INFO ProcessChannel] Receiving message of length 19554, with hash '1c6bd4398536ab5540864a1296f9d89fff3a7ef6795269a82da574df2e47fb5f'
+[2025-11-13 16:15:52Z INFO Worker] Message received.
+[2025-11-13 16:15:52Z INFO Worker] Job message:
+ {
+  "fileTable": [
+    ".github/workflows/cd.yml"
+  ],
+  "mask": [
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    }
+  ],
+  "steps": [
+    {
+      "type": "action",
+      "reference": {
+        "type": "repository",
+        "name": "actions/checkout",
+        "ref": "v4",
+        "repositoryType": "GitHub"
+      },
+      "displayNameToken": {
+        "type": 0,
+        "file": 1,
+        "line": 15,
+        "col": 15,
+        "lit": "Checkout code"
+      },
+      "contextName": "__actions_checkout",
+      "condition": "success()",
+      "id": "6db892fc-f964-40db-87c6-d7ecb83e42e6",
+      "name": "__actions_checkout"
+    },
+    {
+      "type": "action",
+      "reference": {
+        "type": "repository",
+        "name": "azure/setup-kubectl",
+        "ref": "v4",
+        "repositoryType": "GitHub"
+      },
+      "displayNameToken": {
+        "type": 0,
+        "file": 1,
+        "line": 18,
+        "col": 15,
+        "lit": "Setup kubectl"
+      },
+      "contextName": "__azure_setup-kubectl",
+      "inputs": {
+        "type": 2,
+        "file": 1,
+        "line": 21,
+        "col": 11,
+        "map": [
+          {
+            "key": {
+              "type": 0,
+              "file": 1,
+              "line": 21,
+              "col": 11,
+              "lit": "version"
+            },
+            "value": {
+              "type": 0,
+              "file": 1,
+              "line": 21,
+              "col": 20,
+              "lit": "latest"
+            }
+          }
+        ]
+      },
+      "condition": "success()",
+      "id": "9240e3a4-6753-479b-818f-d44b0a12d8c2",
+      "name": "__azure_setup-kubectl"
+    },
+    {
+      "type": "action",
+      "reference": {
+        "type": "script"
+      },
+      "displayNameToken": {
+        "type": 0,
+        "file": 1,
+        "line": 23,
+        "col": 15,
+        "lit": "Configurar kubeconfig"
+      },
+      "contextName": "__run",
+      "inputs": {
+        "type": 2,
+        "map": [
+          {
+            "key": "script",
+            "value": {
+              "type": 3,
+              "file": 1,
+              "line": 25,
+              "col": 14,
+              "expr": "format('$path = \"$HOME\\.kube\"\nif (!(Test-Path $path)) {{ New-Item -ItemType Directory -Force -Path $path | Out-Null }}\n[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String(\"{0}\")) | Out-File \"$path\\config\" -Encoding utf8\nWrite-Host \"✅ Kubeconfig criado em $path\\config\"\nkubectl config get-contexts\n', secrets.KUBE_CONFIG)"
+            }
+          },
+          {
+            "key": "shell",
+            "value": {
+              "type": 0,
+              "file": 1,
+              "line": 24,
+              "col": 16,
+              "lit": "powershell"
+            }
+          }
+        ]
+      },
+      "condition": "success()",
+      "id": "acc1606c-d9eb-44bb-af68-da4cb92f691b",
+      "name": "__run"
+    },
+    {
+      "type": "action",
+      "reference": {
+        "type": "script"
+      },
+      "displayNameToken": {
+        "type": 0,
+        "file": 1,
+        "line": 32,
+        "col": 15,
+        "lit": "Testar conexão com o cluster"
+      },
+      "contextName": "__run_2",
+      "inputs": {
+        "type": 2,
+        "map": [
+          {
+            "key": "script",
+            "value": {
+              "type": 0,
+              "file": 1,
+              "line": 34,
+              "col": 14,
+              "lit": "kubectl cluster-info\nkubectl get nodes\n"
+            }
+          },
+          {
+            "key": "shell",
+            "value": {
+              "type": 0,
+              "file": 1,
+              "line": 33,
+              "col": 16,
+              "lit": "powershell"
+            }
+          }
+        ]
+      },
+      "condition": "success()",
+      "id": "54b87790-5cc2-4f62-beda-6900f693a877",
+      "name": "__run_2"
+    },
+    {
+      "type": "action",
+      "reference": {
+        "type": "script"
+      },
+      "displayNameToken": {
+        "type": 0,
+        "file": 1,
+        "line": 38,
+        "col": 15,
+        "lit": "Aplicar manifests do Kubernetes"
+      },
+      "contextName": "__run_3",
+      "inputs": {
+        "type": 2,
+        "map": [
+          {
+            "key": "script",
+            "value": {
+              "type": 0,
+              "file": 1,
+              "line": 40,
+              "col": 14,
+              "lit": "kubectl apply -f k8s/ --validate=false\nkubectl rollout status deployment/monitor || exit 0\nkubectl rollout status deployment/nginx || exit 0\nkubectl get pods -o wide\n"
+            }
+          },
+          {
+            "key": "shell",
+            "value": {
+              "type": 0,
+              "file": 1,
+              "line": 39,
+              "col": 16,
+              "lit": "powershell"
+            }
+          }
+        ]
+      },
+      "condition": "success()",
+      "id": "b6035ad3-96e7-426e-853a-62a7170d2142",
+      "name": "__run_3"
+    }
+  ],
+  "variables": {
+    "Actions.EnableHttpRedirects": {
+      "value": "true"
+    },
+    "DistributedTask.AddWarningToNode12Action": {
+      "value": "true"
+    },
+    "DistributedTask.AddWarningToNode16Action": {
+      "value": "true"
+    },
+    "DistributedTask.AllowRunnerContainerHooks": {
+      "value": "true"
+    },
+    "DistributedTask.DeprecateStepOutputCommands": {
+      "value": "true"
+    },
+    "DistributedTask.DetailUntarFailure": {
+      "value": "true"
+    },
+    "DistributedTask.EnableCompositeActions": {
+      "value": "true"
+    },
+    "DistributedTask.EnableJobServerQueueTelemetry": {
+      "value": "true"
+    },
+    "DistributedTask.EnhancedAnnotations": {
+      "value": "true"
+    },
+    "DistributedTask.ForceGithubJavascriptActionsToNode16": {
+      "value": "true"
+    },
+    "DistributedTask.ForceGithubJavascriptActionsToNode20": {
+      "value": "true"
+    },
+    "DistributedTask.LogTemplateErrorsAsDebugMessages": {
+      "value": "true"
+    },
+    "DistributedTask.MarkJobAsFailedOnWorkerCrash": {
+      "value": "true"
+    },
+    "DistributedTask.NewActionMetadata": {
+      "value": "true"
+    },
+    "DistributedTask.UploadStepSummary": {
+      "value": "true"
+    },
+    "DistributedTask.UseActionArchiveCache": {
+      "value": "true"
+    },
+    "DistributedTask.UseWhich2": {
+      "value": "true"
+    },
+    "KUBE_CONFIG": {
+      "value": "***",
+      "isSecret": true
+    },
+    "RunService.FixEmbeddedIssues": {
+      "value": "true"
+    },
+    "actions_add_check_run_id_to_job_context": {
+      "value": "true"
+    },
+    "actions_container_action_runner_temp": {
+      "value": "false"
+    },
+    "actions_display_helpful_actions_download_errors": {
+      "value": "true"
+    },
+    "actions_skip_retry_complete_job_upon_known_errors": {
+      "value": "true"
+    },
+    "actions_uses_cache_service_v2": {
+      "value": "true"
+    },
+    "github_token": {
+      "value": "***",
+      "isSecret": true
+    },
+    "system.from_run_service": {
+      "value": "true"
+    },
+    "system.github.job": {
+      "value": "deploy"
+    },
+    "system.github.launch_endpoint": {
+      "value": "https://launch.actions.githubusercontent.com"
+    },
+    "system.github.results_endpoint": {
+      "value": "https://results-receiver.actions.githubusercontent.com/"
+    },
+    "system.github.results_upload_with_sdk": {
+      "value": "true"
+    },
+    "system.github.token": {
+      "value": "***",
+      "isSecret": true
+    },
+    "system.github.token.permissions": {
+      "value": "{\"Contents\":\"read\",\"Metadata\":\"read\",\"Packages\":\"read\"}"
+    },
+    "system.orchestrationId": {
+      "value": "b93df2cd-40d6-44e4-94f7-aa3b34e02605.deploy.__default"
+    },
+    "system.phaseDisplayName": {
+      "value": "deploy"
+    },
+    "system.runner.lowdiskspacethreshold": {
+      "value": "100"
+    },
+    "system.runnerEnvironment": {
+      "value": "self-hosted"
+    },
+    "system.runnerGroupName": {
+      "value": "Default"
+    }
+  },
+  "messageType": "RunnerJobRequest",
+  "plan": {
+    "scopeIdentifier": "00000000-0000-0000-0000-000000000000",
+    "planType": "actions",
+    "version": 0,
+    "planId": "b93df2cd-40d6-44e4-94f7-aa3b34e02605",
+    "planGroup": null,
+    "artifactUri": null,
+    "artifactLocation": null,
+    "definition": null,
+    "owner": null
+  },
+  "timeline": {
+    "id": "b93df2cd-40d6-44e4-94f7-aa3b34e02605",
+    "changeId": 0,
+    "location": null
+  },
+  "jobId": "378061c3-292d-598a-8ee6-f81a51af7751",
+  "jobDisplayName": "deploy",
+  "jobName": "__default",
+  "requestId": 0,
+  "lockedUntil": "0001-01-01T00:00:00",
+  "resources": {
+    "endpoints": [
+      {
+        "data": {
+          "ServerId": "",
+          "ServerName": "",
+          "CacheServerUrl": "https://artifactcache.actions.githubusercontent.com/BMeOTxf033MrFwyEFBiojZmjBfoA49lpJpqSzAgY1tq5QsMlsW/",
+          "FeedStreamUrl": "wss://results-receiver.actions.githubusercontent.com/_ws/ingest.sock",
+          "ResultsServiceUrl": "https://results-receiver.actions.githubusercontent.com/",
+          "PipelinesServiceUrl": "https://pipelinesghubeus4.actions.githubusercontent.com/BMeOTxf033MrFwyEFBiojZmjBfoA49lpJpqSzAgY1tq5QsMlsW/",
+          "GenerateIdTokenUrl": ""
+        },
+        "name": "SystemVssConnection",
+        "url": "https://run-actions-3-azure-eastus.actions.githubusercontent.com/90/",
+        "authorization": {
+          "parameters": {
+            "AccessToken": "***"
+          },
+          "scheme": "OAuth"
+        },
+        "isShared": false,
+        "isReady": true
+      }
+    ]
+  },
+  "contextData": {
+    "github": {
+      "t": 2,
+      "d": [
+        {
+          "k": "ref",
+          "v": "refs/heads/main"
+        },
+        {
+          "k": "sha",
+          "v": "9aed6a0e5bcc4352c2e654c357a2d635fe9de1b0"
+        },
+        {
+          "k": "repository",
+          "v": "Antonyvs/Projeto-Adrian"
+        },
+        {
+          "k": "repository_owner",
+          "v": "Antonyvs"
+        },
+        {
+          "k": "repository_owner_id",
+          "v": "110572528"
+        },
+        {
+          "k": "repositoryUrl",
+          "v": "git://github.com/Antonyvs/Projeto-Adrian.git"
+        },
+        {
+          "k": "run_id",
+          "v": "19338107435"
+        },
+        {
+          "k": "run_number",
+          "v": "15"
+        },
+        {
+          "k": "retention_days",
+          "v": "90"
+        },
+        {
+          "k": "run_attempt",
+          "v": "1"
+        },
+        {
+          "k": "artifact_cache_size_limit",
+          "v": "10"
+        },
+        {
+          "k": "repository_visibility",
+          "v": "public"
+        },
+        {
+          "k": "actor_id",
+          "v": "110572528"
+        },
+        {
+          "k": "actor",
+          "v": "Antonyvs"
+        },
+        {
+          "k": "workflow",
+          "v": "CD - Deploy to Kubernetes"
+        },
+        {
+          "k": "head_ref",
+          "v": ""
+        },
+        {
+          "k": "base_ref",
+          "v": ""
+        },
+        {
+          "k": "event_name",
+          "v": "workflow_dispatch"
+        },
+        {
+          "k": "server_url",
+          "v": "https://github.com"
+        },
+        {
+          "k": "api_url",
+          "v": "https://api.github.com"
+        },
+        {
+          "k": "graphql_url",
+          "v": "https://api.github.com/graphql"
+        },
+        {
+          "k": "ref_name",
+          "v": "main"
+        },
+        {
+          "k": "ref_protected",
+          "v": false
+        },
+        {
+          "k": "ref_type",
+          "v": "branch"
+        },
+        {
+          "k": "secret_source",
+          "v": "Actions"
+        },
+        {
+          "k": "event",
+          "v": {
+            "t": 2,
+            "d": [
+              {
+                "k": "inputs",
+                "v": null
+              },
+              {
+                "k": "ref",
+                "v": "refs/heads/main"
+              },
+              {
+                "k": "repository",
+                "v": {
+                  "t": 2,
+                  "d": [
+                    {
+                      "k": "allow_forking",
+                      "v": true
+                    },
+                    {
+                      "k": "archive_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/{archive_format}{/ref}"
+                    },
+                    {
+                      "k": "archived",
+                      "v": false
+                    },
+                    {
+                      "k": "assignees_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/assignees{/user}"
+                    },
+                    {
+                      "k": "blobs_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/git/blobs{/sha}"
+                    },
+                    {
+                      "k": "branches_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/branches{/branch}"
+                    },
+                    {
+                      "k": "clone_url",
+                      "v": "https://github.com/Antonyvs/Projeto-Adrian.git"
+                    },
+                    {
+                      "k": "collaborators_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/collaborators{/collaborator}"
+                    },
+                    {
+                      "k": "comments_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/comments{/number}"
+                    },
+                    {
+                      "k": "commits_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/commits{/sha}"
+                    },
+                    {
+                      "k": "compare_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/compare/{base}...{head}"
+                    },
+                    {
+                      "k": "contents_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/contents/{+path}"
+                    },
+                    {
+                      "k": "contributors_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/contributors"
+                    },
+                    {
+                      "k": "created_at",
+                      "v": "2025-11-07T00:16:46Z"
+                    },
+                    {
+                      "k": "default_branch",
+                      "v": "main"
+                    },
+                    {
+                      "k": "deployments_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/deployments"
+                    },
+                    {
+                      "k": "description",
+                      "v": null
+                    },
+                    {
+                      "k": "disabled",
+                      "v": false
+                    },
+                    {
+                      "k": "downloads_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/downloads"
+                    },
+                    {
+                      "k": "events_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/events"
+                    },
+                    {
+                      "k": "fork",
+                      "v": false
+                    },
+                    {
+                      "k": "forks",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "forks_count",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "forks_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/forks"
+                    },
+                    {
+                      "k": "full_name",
+                      "v": "Antonyvs/Projeto-Adrian"
+                    },
+                    {
+                      "k": "git_commits_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/git/commits{/sha}"
+                    },
+                    {
+                      "k": "git_refs_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/git/refs{/sha}"
+                    },
+                    {
+                      "k": "git_tags_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/git/tags{/sha}"
+                    },
+                    {
+                      "k": "git_url",
+                      "v": "git://github.com/Antonyvs/Projeto-Adrian.git"
+                    },
+                    {
+                      "k": "has_discussions",
+                      "v": false
+                    },
+                    {
+                      "k": "has_downloads",
+                      "v": true
+                    },
+                    {
+                      "k": "has_issues",
+                      "v": true
+                    },
+                    {
+                      "k": "has_pages",
+                      "v": false
+                    },
+                    {
+                      "k": "has_projects",
+                      "v": true
+                    },
+                    {
+                      "k": "has_wiki",
+                      "v": true
+                    },
+                    {
+                      "k": "homepage",
+                      "v": null
+                    },
+                    {
+                      "k": "hooks_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/hooks"
+                    },
+                    {
+                      "k": "html_url",
+                      "v": "https://github.com/Antonyvs/Projeto-Adrian"
+                    },
+                    {
+                      "k": "id",
+                      "v": 1091385153.0
+                    },
+                    {
+                      "k": "is_template",
+                      "v": false
+                    },
+                    {
+                      "k": "issue_comment_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/issues/comments{/number}"
+                    },
+                    {
+                      "k": "issue_events_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/issues/events{/number}"
+                    },
+                    {
+                      "k": "issues_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/issues{/number}"
+                    },
+                    {
+                      "k": "keys_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/keys{/key_id}"
+                    },
+                    {
+                      "k": "labels_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/labels{/name}"
+                    },
+                    {
+                      "k": "language",
+                      "v": "JavaScript"
+                    },
+                    {
+                      "k": "languages_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/languages"
+                    },
+                    {
+                      "k": "license",
+                      "v": null
+                    },
+                    {
+                      "k": "merges_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/merges"
+                    },
+                    {
+                      "k": "milestones_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/milestones{/number}"
+                    },
+                    {
+                      "k": "mirror_url",
+                      "v": null
+                    },
+                    {
+                      "k": "name",
+                      "v": "Projeto-Adrian"
+                    },
+                    {
+                      "k": "node_id",
+                      "v": "R_kgDOQQ03QQ"
+                    },
+                    {
+                      "k": "notifications_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/notifications{?since,all,participating}"
+                    },
+                    {
+                      "k": "open_issues",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "open_issues_count",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "owner",
+                      "v": {
+                        "t": 2,
+                        "d": [
+                          {
+                            "k": "avatar_url",
+                            "v": "https://avatars.githubusercontent.com/u/110572528?v=4"
+                          },
+                          {
+                            "k": "events_url",
+                            "v": "https://api.github.com/users/Antonyvs/events{/privacy}"
+                          },
+                          {
+                            "k": "followers_url",
+                            "v": "https://api.github.com/users/Antonyvs/followers"
+                          },
+                          {
+                            "k": "following_url",
+                            "v": "https://api.github.com/users/Antonyvs/following{/other_user}"
+                          },
+                          {
+                            "k": "gists_url",
+                            "v": "https://api.github.com/users/Antonyvs/gists{/gist_id}"
+                          },
+                          {
+                            "k": "gravatar_id",
+                            "v": ""
+                          },
+                          {
+                            "k": "html_url",
+                            "v": "https://github.com/Antonyvs"
+                          },
+                          {
+                            "k": "id",
+                            "v": 110572528.0
+                          },
+                          {
+                            "k": "login",
+                            "v": "Antonyvs"
+                          },
+                          {
+                            "k": "node_id",
+                            "v": "U_kgDOBpcz8A"
+                          },
+                          {
+                            "k": "organizations_url",
+                            "v": "https://api.github.com/users/Antonyvs/orgs"
+                          },
+                          {
+                            "k": "received_events_url",
+                            "v": "https://api.github.com/users/Antonyvs/received_events"
+                          },
+                          {
+                            "k": "repos_url",
+                            "v": "https://api.github.com/users/Antonyvs/repos"
+                          },
+                          {
+                            "k": "site_admin",
+                            "v": false
+                          },
+                          {
+                            "k": "starred_url",
+                            "v": "https://api.github.com/users/Antonyvs/starred{/owner}{/repo}"
+                          },
+                          {
+                            "k": "subscriptions_url",
+                            "v": "https://api.github.com/users/Antonyvs/subscriptions"
+                          },
+                          {
+                            "k": "type",
+                            "v": "User"
+                          },
+                          {
+                            "k": "url",
+                            "v": "https://api.github.com/users/Antonyvs"
+                          },
+                          {
+                            "k": "user_view_type",
+                            "v": "public"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "k": "private",
+                      "v": false
+                    },
+                    {
+                      "k": "pulls_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/pulls{/number}"
+                    },
+                    {
+                      "k": "pushed_at",
+                      "v": "2025-11-13T15:58:16Z"
+                    },
+                    {
+                      "k": "releases_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/releases{/id}"
+                    },
+                    {
+                      "k": "size",
+                      "v": 2047.0
+                    },
+                    {
+                      "k": "ssh_url",
+                      "v": "git@github.com:Antonyvs/Projeto-Adrian.git"
+                    },
+                    {
+                      "k": "stargazers_count",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "stargazers_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/stargazers"
+                    },
+                    {
+                      "k": "statuses_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/statuses/{sha}"
+                    },
+                    {
+                      "k": "subscribers_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/subscribers"
+                    },
+                    {
+                      "k": "subscription_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/subscription"
+                    },
+                    {
+                      "k": "svn_url",
+                      "v": "https://github.com/Antonyvs/Projeto-Adrian"
+                    },
+                    {
+                      "k": "tags_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/tags"
+                    },
+                    {
+                      "k": "teams_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/teams"
+                    },
+                    {
+                      "k": "topics",
+                      "v": {
+                        "t": 1
+                      }
+                    },
+                    {
+                      "k": "trees_url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian/git/trees{/sha}"
+                    },
+                    {
+                      "k": "updated_at",
+                      "v": "2025-11-13T15:58:19Z"
+                    },
+                    {
+                      "k": "url",
+                      "v": "https://api.github.com/repos/Antonyvs/Projeto-Adrian"
+                    },
+                    {
+                      "k": "visibility",
+                      "v": "public"
+                    },
+                    {
+                      "k": "watchers",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "watchers_count",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "web_commit_signoff_required",
+                      "v": false
+                    }
+                  ]
+                }
+              },
+              {
+                "k": "sender",
+                "v": {
+                  "t": 2,
+                  "d": [
+                    {
+                      "k": "avatar_url",
+                      "v": "https://avatars.githubusercontent.com/u/110572528?v=4"
+                    },
+                    {
+                      "k": "events_url",
+                      "v": "https://api.github.com/users/Antonyvs/events{/privacy}"
+                    },
+                    {
+                      "k": "followers_url",
+                      "v": "https://api.github.com/users/Antonyvs/followers"
+                    },
+                    {
+                      "k": "following_url",
+                      "v": "https://api.github.com/users/Antonyvs/following{/other_user}"
+                    },
+                    {
+                      "k": "gists_url",
+                      "v": "https://api.github.com/users/Antonyvs/gists{/gist_id}"
+                    },
+                    {
+                      "k": "gravatar_id",
+                      "v": ""
+                    },
+                    {
+                      "k": "html_url",
+                      "v": "https://github.com/Antonyvs"
+                    },
+                    {
+                      "k": "id",
+                      "v": 110572528.0
+                    },
+                    {
+                      "k": "login",
+                      "v": "Antonyvs"
+                    },
+                    {
+                      "k": "node_id",
+                      "v": "U_kgDOBpcz8A"
+                    },
+                    {
+                      "k": "organizations_url",
+                      "v": "https://api.github.com/users/Antonyvs/orgs"
+                    },
+                    {
+                      "k": "received_events_url",
+                      "v": "https://api.github.com/users/Antonyvs/received_events"
+                    },
+                    {
+                      "k": "repos_url",
+                      "v": "https://api.github.com/users/Antonyvs/repos"
+                    },
+                    {
+                      "k": "site_admin",
+                      "v": false
+                    },
+                    {
+                      "k": "starred_url",
+                      "v": "https://api.github.com/users/Antonyvs/starred{/owner}{/repo}"
+                    },
+                    {
+                      "k": "subscriptions_url",
+                      "v": "https://api.github.com/users/Antonyvs/subscriptions"
+                    },
+                    {
+                      "k": "type",
+                      "v": "User"
+                    },
+                    {
+                      "k": "url",
+                      "v": "https://api.github.com/users/Antonyvs"
+                    },
+                    {
+                      "k": "user_view_type",
+                      "v": "public"
+                    }
+                  ]
+                }
+              },
+              {
+                "k": "workflow",
+                "v": ".github/workflows/cd.yml"
+              }
+            ]
+          }
+        },
+        {
+          "k": "workflow_ref",
+          "v": "Antonyvs/Projeto-Adrian/.github/workflows/cd.yml@refs/heads/main"
+        },
+        {
+          "k": "workflow_sha",
+          "v": "9aed6a0e5bcc4352c2e654c357a2d635fe9de1b0"
+        },
+        {
+          "k": "repository_id",
+          "v": "1091385153"
+        },
+        {
+          "k": "triggering_actor",
+          "v": "Antonyvs"
+        }
+      ]
+    },
+    "inputs": {
+      "t": 2
+    },
+    "job": {
+      "t": 2,
+      "d": [
+        {
+          "k": "check_run_id",
+          "v": 55318771037.0
+        }
+      ]
+    },
+    "matrix": null,
+    "needs": {
+      "t": 2
+    },
+    "strategy": {
+      "t": 2,
+      "d": [
+        {
+          "k": "fail-fast",
+          "v": true
+        },
+        {
+          "k": "job-index",
+          "v": 0.0
+        },
+        {
+          "k": "job-total",
+          "v": 1.0
+        },
+        {
+          "k": "max-parallel",
+          "v": 1.0
+        }
+      ]
+    },
+    "vars": {
+      "t": 2
+    }
+  },
+  "billingOwnerId": "U_kgDOBpcz8A"
+}
+[2025-11-13 16:15:52Z INFO JobRunner] Job ID 378061c3-292d-598a-8ee6-f81a51af7751
+[2025-11-13 16:15:52Z INFO ConfigurationStore] currentAssemblyLocation: C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin\Runner.Worker.dll
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO ConfigurationStore] binPath: C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO ConfigurationStore] RootFolder: C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known config file 'Runner': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.runner'
+[2025-11-13 16:15:52Z INFO ConfigurationStore] ConfigFilePath: C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.runner
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known config file 'MigratedRunner': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.runner_migrated'
+[2025-11-13 16:15:52Z INFO ConfigurationStore] MigratedConfigFilePath: C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.runner_migrated
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known config file 'Credentials': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.credentials'
+[2025-11-13 16:15:52Z INFO ConfigurationStore] CredFilePath: C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.credentials
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known config file 'MigratedCredentials': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.credentials_migrated'
+[2025-11-13 16:15:52Z INFO ConfigurationStore] MigratedCredFilePath: C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.credentials_migrated
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known config file 'Service': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.service'
+[2025-11-13 16:15:52Z INFO ConfigurationStore] ServiceConfigFilePath: C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.service
+[2025-11-13 16:15:52Z INFO ConfigurationStore] Read setting file: 396 chars
+[2025-11-13 16:15:52Z INFO JobRunner] Initializing launch client
+[2025-11-13 16:15:52Z INFO JobServerQueue] Initializing results client
+[2025-11-13 16:15:52Z INFO ResultServer] Creating websocket client ...wss://results-receiver.actions.githubusercontent.com/_ws/ingest.sock
+[2025-11-13 16:15:52Z INFO ResultServer] Attempting to start websocket client with delay 00:00:00.
+[2025-11-13 16:15:52Z INFO JobServerQueue] Start process web console line queue.
+[2025-11-13 16:15:52Z INFO JobServerQueue] Start process file upload queue.
+[2025-11-13 16:15:52Z INFO JobServerQueue] Start results file upload queue.
+[2025-11-13 16:15:52Z INFO JobServerQueue] Starting results-based upload queue...
+[2025-11-13 16:15:52Z INFO JobServerQueue] Start process timeline update queue.
+[2025-11-13 16:15:52Z INFO ExecutionContext] Initializing Job context
+[2025-11-13 16:15:52Z INFO ExecutionContext] Initialize GitHub context
+[2025-11-13 16:15:52Z INFO ExecutionContext] Initialize Env context
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:52Z INFO JobRunner] Starting the job execution context.
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:52Z INFO JobRunner] Validating directory permissions for: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Tools': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_tool'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:52Z INFO JobRunner] Getting job extension.
+[2025-11-13 16:15:52Z INFO JobRunner] Initialize job. Getting all job steps.
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known config file 'Credentials': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.credentials'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known config file 'SetupInfo': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\.setup_info'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:52Z INFO PipelineDirectoryManager] Loading tracking config if exists: C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_PipelineMapping\Antonyvs/Projeto-Adrian\PipelineFolder.json
+[2025-11-13 16:15:52Z INFO PipelineDirectoryManager] Updating job run properties.
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:52Z INFO JobExtension] Downloading actions
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:52Z INFO Worker] Listening for cancel message from the channel.
+[2025-11-13 16:15:52Z INFO Worker] Waiting for the job to complete or for a cancel message from the channel.
+[2025-11-13 16:15:52Z INFO ResultServer] Successfully started websocket client.
+[2025-11-13 16:15:52Z INFO JobServerQueue] Try to append 1 batches web console lines for record '92ef40b6-779c-44e2-8e4b-5a5784003de9', success rate: 1/1.
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:52Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:52Z INFO ActionManager] Save archive 'https://api.github.com/repos/actions/checkout/zipball/08eba0b27e820071cde6df949e0beb9ba4906955' into C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions\_temp_970ddfdf-1d64-474f-9d14-fc9ff5eb8894\5bd4f200-e572-4a91-ac73-61c3add88222.zip.
+[2025-11-13 16:15:53Z INFO JobServerQueue] Try to append 1 batches web console lines for record '92ef40b6-779c-44e2-8e4b-5a5784003de9', success rate: 1/1.
+[2025-11-13 16:15:53Z INFO JobServerQueue] Job timeline record has been updated for the first time.
+[2025-11-13 16:15:53Z INFO ActionManager] Request URL: https://api.github.com/repos/actions/checkout/zipball/08eba0b27e820071cde6df949e0beb9ba4906955 X-GitHub-Request-Id: C325:15C209:AFD7C:21BCFE:6916043A Http Status: OK
+[2025-11-13 16:15:53Z INFO ActionManager] Finished getting action repository.
+[2025-11-13 16:15:53Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:53Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:53Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:53Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:53Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:53Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:53Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:53Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:53Z INFO ActionManager] Save archive 'https://api.github.com/repos/Azure/setup-kubectl/zipball/776406bce94f63e41d621b960d78ee25c8b76ede' into C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions\_temp_174c0202-0433-4157-b353-c8c7e95eb883\511ae377-3e80-4214-9284-3fc9328830f1.zip.
+[2025-11-13 16:15:54Z INFO JobServerQueue] Try to append 1 batches web console lines for record '92ef40b6-779c-44e2-8e4b-5a5784003de9', success rate: 1/1.
+[2025-11-13 16:15:54Z INFO ActionManager] Request URL: https://api.github.com/repos/Azure/setup-kubectl/zipball/776406bce94f63e41d621b960d78ee25c8b76ede X-GitHub-Request-Id: C327:2600ED:AFD10:21BC0D:6916043B Http Status: OK
+[2025-11-13 16:15:54Z INFO ActionManager] Finished getting action repository.
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Load schema file with definitions: [
+  "null",
+  "boolean",
+  "number",
+  "string",
+  "sequence",
+  "mapping",
+  "any",
+  "action-root",
+  "inputs",
+  "input",
+  "outputs",
+  "output-definition",
+  "runs",
+  "container-runs",
+  "container-runs-args",
+  "container-runs-env",
+  "node-runs",
+  "plugin-runs",
+  "composite-runs",
+  "composite-steps",
+  "composite-step",
+  "run-step",
+  "uses-step",
+  "container-runs-context",
+  "output-value",
+  "input-default-context",
+  "non-empty-string",
+  "string-steps-context",
+  "boolean-steps-context",
+  "step-env",
+  "step-if",
+  "step-with"
+]
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Checkout",
+  "description": "Checkout a Git repository at a particular version",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 4,
+          "col": 3,
+          "lit": "repository"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 6,
+          "col": 14,
+          "expr": "github.repository"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 7,
+          "col": 3,
+          "lit": "ref"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 12,
+          "col": 3,
+          "lit": "token"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 24,
+          "col": 14,
+          "expr": "github.token"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 25,
+          "col": 3,
+          "lit": "ssh-key"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 37,
+          "col": 3,
+          "lit": "ssh-known-hosts"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 42,
+          "col": 3,
+          "lit": "ssh-strict"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 47,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 48,
+          "col": 3,
+          "lit": "ssh-user"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 51,
+          "col": 14,
+          "lit": "git"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 52,
+          "col": 3,
+          "lit": "persist-credentials"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 54,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 55,
+          "col": 3,
+          "lit": "path"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 57,
+          "col": 3,
+          "lit": "clean"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 59,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 60,
+          "col": 3,
+          "lit": "filter"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 64,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 65,
+          "col": 3,
+          "lit": "sparse-checkout"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 69,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 70,
+          "col": 3,
+          "lit": "sparse-checkout-cone-mode"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 73,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 74,
+          "col": 3,
+          "lit": "fetch-depth"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 76,
+          "col": 14,
+          "lit": "1"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 77,
+          "col": 3,
+          "lit": "fetch-tags"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 79,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 80,
+          "col": 3,
+          "lit": "show-progress"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 82,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 83,
+          "col": 3,
+          "lit": "lfs"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 85,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 86,
+          "col": 3,
+          "lit": "submodules"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 94,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 95,
+          "col": 3,
+          "lit": "set-safe-directory"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 97,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 98,
+          "col": 3,
+          "lit": "github-server-url"
+        },
+        "value": ""
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": true,
+    "script": "dist/index.js",
+    "pre": null,
+    "post": "dist/index.js",
+    "nodeVersion": "node20",
+    "cleanupCondition": "always()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-11-13 16:15:54Z INFO ActionManager] Action node.js file: dist/index.js, no more preparation.
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:54Z INFO ActionManager] Load action that reference repository from 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions\actions\checkout\v4'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Checkout",
+  "description": "Checkout a Git repository at a particular version",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 4,
+          "col": 3,
+          "lit": "repository"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 6,
+          "col": 14,
+          "expr": "github.repository"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 7,
+          "col": 3,
+          "lit": "ref"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 12,
+          "col": 3,
+          "lit": "token"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 24,
+          "col": 14,
+          "expr": "github.token"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 25,
+          "col": 3,
+          "lit": "ssh-key"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 37,
+          "col": 3,
+          "lit": "ssh-known-hosts"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 42,
+          "col": 3,
+          "lit": "ssh-strict"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 47,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 48,
+          "col": 3,
+          "lit": "ssh-user"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 51,
+          "col": 14,
+          "lit": "git"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 52,
+          "col": 3,
+          "lit": "persist-credentials"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 54,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 55,
+          "col": 3,
+          "lit": "path"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 57,
+          "col": 3,
+          "lit": "clean"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 59,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 60,
+          "col": 3,
+          "lit": "filter"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 64,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 65,
+          "col": 3,
+          "lit": "sparse-checkout"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 69,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 70,
+          "col": 3,
+          "lit": "sparse-checkout-cone-mode"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 73,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 74,
+          "col": 3,
+          "lit": "fetch-depth"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 76,
+          "col": 14,
+          "lit": "1"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 77,
+          "col": 3,
+          "lit": "fetch-tags"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 79,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 80,
+          "col": 3,
+          "lit": "show-progress"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 82,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 83,
+          "col": 3,
+          "lit": "lfs"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 85,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 86,
+          "col": 3,
+          "lit": "submodules"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 94,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 95,
+          "col": 3,
+          "lit": "set-safe-directory"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 97,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 98,
+          "col": 3,
+          "lit": "github-server-url"
+        },
+        "value": ""
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": true,
+    "script": "dist/index.js",
+    "pre": null,
+    "post": "dist/index.js",
+    "nodeVersion": "node20",
+    "cleanupCondition": "always()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-11-13 16:15:54Z INFO ActionManager] Action pre node.js file: N/A.
+[2025-11-13 16:15:54Z INFO ActionManager] Action node.js file: dist/index.js.
+[2025-11-13 16:15:54Z INFO ActionManager] Action post node.js file: dist/index.js.
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Ignore action property branding.
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Kubectl tool installer",
+  "description": "Install a specific version of kubectl binary. Acceptable values are latest or any semantic version string like 1.15.0",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 4,
+          "col": 4,
+          "lit": "version"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 7,
+          "col": 16,
+          "lit": "latest"
+        }
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": false,
+    "script": "lib/index.js",
+    "pre": null,
+    "post": null,
+    "nodeVersion": "node20",
+    "cleanupCondition": "always()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-11-13 16:15:54Z INFO ActionManager] Action node.js file: lib/index.js, no more preparation.
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:54Z INFO ActionManager] Load action that reference repository from 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions\azure\setup-kubectl\v4'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Ignore action property branding.
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Kubectl tool installer",
+  "description": "Install a specific version of kubectl binary. Acceptable values are latest or any semantic version string like 1.15.0",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 4,
+          "col": 4,
+          "lit": "version"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 7,
+          "col": 16,
+          "lit": "latest"
+        }
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": false,
+    "script": "lib/index.js",
+    "pre": null,
+    "post": null,
+    "nodeVersion": "node20",
+    "cleanupCondition": "always()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-11-13 16:15:54Z INFO ActionManager] Action pre node.js file: N/A.
+[2025-11-13 16:15:54Z INFO ActionManager] Action node.js file: lib/index.js.
+[2025-11-13 16:15:54Z INFO ActionManager] Action post node.js file: N/A.
+[2025-11-13 16:15:54Z INFO JobExtension] Adding .
+[2025-11-13 16:15:54Z INFO JobExtension] Adding .
+[2025-11-13 16:15:54Z INFO JobExtension] Adding .
+[2025-11-13 16:15:54Z INFO JobExtension] Adding .
+[2025-11-13 16:15:54Z INFO JobExtension] Adding .
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO JobExtension] Total accessible running process: 307.
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO JobExtension] Start checking service connectivity in background.
+[2025-11-13 16:15:54Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "setup_job",
+  "type": "runner",
+  "stage": "Pre",
+  "stepId": "92ef40b6-779c-44e2-8e4b-5a5784003de9",
+  "result": "succeeded",
+  "errorMessages": [],
+  "executionTimeInSeconds": 3,
+  "startTime": "2025-11-13T16:15:52.267981Z",
+  "finishTime": "2025-11-13T16:15:54.7376454Z"
+}.
+[2025-11-13 16:15:54Z INFO JobRunner] Total job steps: 5.
+[2025-11-13 16:15:54Z INFO JobRunner] Run all job steps.
+[2025-11-13 16:15:54Z INFO StepsRunner] Processing step: DisplayName='Checkout code'
+[2025-11-13 16:15:54Z INFO StepsRunner] Evaluating: success()
+[2025-11-13 16:15:54Z INFO StepsRunner] Result: true
+[2025-11-13 16:15:54Z INFO StepsRunner] Starting the step.
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO StepsRunner] Which2: 'chcp'
+[2025-11-13 16:15:54Z INFO StepsRunner] Location: 'C:\WINDOWS\system32\chcp.COM'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper] Starting process:
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   File name: 'C:\WINDOWS\system32\chcp.COM'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Arguments: '65001'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Encoding web name:  ; code page: ''
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper] Process started with process id 1352, waiting for process exit.
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper] Finished process 1352 with exit code 0, and elapsed time 00:00:00.0090083.
+[2025-11-13 16:15:54Z INFO StepsRunner] Successfully returned to code page 65001 (UTF8)
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:54Z INFO ActionManager] Load action that reference repository from 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions\actions\checkout\v4'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Checkout",
+  "description": "Checkout a Git repository at a particular version",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 4,
+          "col": 3,
+          "lit": "repository"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 6,
+          "col": 14,
+          "expr": "github.repository"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 7,
+          "col": 3,
+          "lit": "ref"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 12,
+          "col": 3,
+          "lit": "token"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 24,
+          "col": 14,
+          "expr": "github.token"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 25,
+          "col": 3,
+          "lit": "ssh-key"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 37,
+          "col": 3,
+          "lit": "ssh-known-hosts"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 42,
+          "col": 3,
+          "lit": "ssh-strict"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 47,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 48,
+          "col": 3,
+          "lit": "ssh-user"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 51,
+          "col": 14,
+          "lit": "git"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 52,
+          "col": 3,
+          "lit": "persist-credentials"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 54,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 55,
+          "col": 3,
+          "lit": "path"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 57,
+          "col": 3,
+          "lit": "clean"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 59,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 60,
+          "col": 3,
+          "lit": "filter"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 64,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 65,
+          "col": 3,
+          "lit": "sparse-checkout"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 69,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 70,
+          "col": 3,
+          "lit": "sparse-checkout-cone-mode"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 73,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 74,
+          "col": 3,
+          "lit": "fetch-depth"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 76,
+          "col": 14,
+          "lit": "1"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 77,
+          "col": 3,
+          "lit": "fetch-tags"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 79,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 80,
+          "col": 3,
+          "lit": "show-progress"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 82,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 83,
+          "col": 3,
+          "lit": "lfs"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 85,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 86,
+          "col": 3,
+          "lit": "submodules"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 94,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 95,
+          "col": 3,
+          "lit": "set-safe-directory"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 97,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 98,
+          "col": 3,
+          "lit": "github-server-url"
+        },
+        "value": ""
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": true,
+    "script": "dist/index.js",
+    "pre": null,
+    "post": "dist/index.js",
+    "nodeVersion": "node20",
+    "cleanupCondition": "always()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-11-13 16:15:54Z INFO ActionManager] Action pre node.js file: N/A.
+[2025-11-13 16:15:54Z INFO ActionManager] Action node.js file: dist/index.js.
+[2025-11-13 16:15:54Z INFO ActionManager] Action post node.js file: dist/index.js.
+[2025-11-13 16:15:54Z INFO ExecutionContext] Reserve record order 7 to 12 for post job actions.
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:54Z INFO ExecutionContext] Write event payload to C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\_github_workflow\event.json
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:54Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IFileCommandExtension'
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.AddPathFileCommand, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SetEnvFileCommand, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.CreateStepSummaryCommand, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SaveStateFileCommand, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SetOutputFileCommand, Runner.Worker
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'repository': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 6,
+  "col": 14,
+  "lit": "Antonyvs/Projeto-Adrian"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'ref': default value evaluate result: ""
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'token': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 24,
+  "col": 14,
+  "lit": "***"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'ssh-key': default value evaluate result: ""
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'ssh-known-hosts': default value evaluate result: ""
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'ssh-strict': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 47,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'ssh-user': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 51,
+  "col": 14,
+  "lit": "git"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'persist-credentials': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 54,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'path': default value evaluate result: ""
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'clean': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 59,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'filter': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 64,
+  "col": 14,
+  "lit": ""
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'sparse-checkout': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 69,
+  "col": 14,
+  "lit": ""
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'sparse-checkout-cone-mode': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 73,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'fetch-depth': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 76,
+  "col": 14,
+  "lit": "1"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'fetch-tags': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 79,
+  "col": 14,
+  "lit": "false"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'show-progress': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 82,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'lfs': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 85,
+  "col": 14,
+  "lit": "false"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'submodules': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 94,
+  "col": 14,
+  "lit": "false"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'set-safe-directory': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 97,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:54Z INFO ActionManifestManager] Input 'github-server-url': default value evaluate result: ""
+[2025-11-13 16:15:54Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IActionCommandExtension'
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.InternalPluginSetRepoPathCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SetEnvCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SetOutputCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SaveStateCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.AddPathCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.AddMaskCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.AddMatcherCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.RemoveMatcherCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.WarningCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.ErrorCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.NoticeCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.DebugCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.GroupCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.EndGroupCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.EchoCommandExtension, Runner.Worker
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command internal-set-repo-path
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command set-env
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command set-output
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command save-state
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command add-path
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command add-mask
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command add-matcher
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command remove-matcher
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command warning
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command error
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command notice
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command debug
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command group
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command endgroup
+[2025-11-13 16:15:54Z INFO ActionCommandManager] Register action command extension for command echo
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:54Z INFO HostContext] Well known directory 'Externals': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\externals'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper] Starting process:
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   File name: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\externals\node20\bin\node.exe'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Arguments: '"C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions\actions\checkout\v4\dist/index.js"'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\Projeto-Adrian\Projeto-Adrian'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Encoding web name: utf-8 ; code page: '65001'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-11-13 16:15:54Z INFO ProcessInvokerWrapper] Process started with process id 12564, waiting for process exit.
+[2025-11-13 16:15:54Z INFO JobServerQueue] Try to append 1 batches web console lines for record '92ef40b6-779c-44e2-8e4b-5a5784003de9', success rate: 1/1.
+[2025-11-13 16:15:54Z INFO JobServerQueue] Try to append 1 batches web console lines for record '6db892fc-f964-40db-87c6-d7ecb83e42e6', success rate: 1/1.
+[2025-11-13 16:15:55Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-11-13 16:15:55Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag\blocks\b93df2cd-40d6-44e4-94f7-aa3b34e02605_92ef40b6-779c-44e2-8e4b-5a5784003de9.1
+[2025-11-13 16:15:55Z INFO JobServerQueue] Try to upload 1 log files or attachments, success rate: 1/1.
+[2025-11-13 16:15:55Z INFO AddMaskCommandExtension] Add new secret mask with length of 76
+[2025-11-13 16:15:55Z INFO JobServerQueue] Try to append 1 batches web console lines for record '6db892fc-f964-40db-87c6-d7ecb83e42e6', success rate: 1/1.
+[2025-11-13 16:15:55Z INFO JobServerQueue] Try to append 1 batches web console lines for record '6db892fc-f964-40db-87c6-d7ecb83e42e6', success rate: 1/1.
+[2025-11-13 16:15:55Z INFO JobServerQueue] Try to append 1 batches web console lines for record '6db892fc-f964-40db-87c6-d7ecb83e42e6', success rate: 1/1.
+[2025-11-13 16:15:56Z INFO JobServerQueue] Tried to upload 1 file(s) to results, success rate: 1/1.
+[2025-11-13 16:15:56Z INFO JobServerQueue] Try to append 1 batches web console lines for record '6db892fc-f964-40db-87c6-d7ecb83e42e6', success rate: 1/1.
+[2025-11-13 16:15:56Z INFO JobServerQueue] Try to append 1 batches web console lines for record '6db892fc-f964-40db-87c6-d7ecb83e42e6', success rate: 1/1.
+[2025-11-13 16:15:57Z INFO JobServerQueue] Try to append 1 batches web console lines for record '6db892fc-f964-40db-87c6-d7ecb83e42e6', success rate: 1/1.
+[2025-11-13 16:15:57Z INFO JobServerQueue] Try to append 1 batches web console lines for record '6db892fc-f964-40db-87c6-d7ecb83e42e6', success rate: 1/1.
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper] Finished process 12564 with exit code 0, and elapsed time 00:00:02.9618306.
+[2025-11-13 16:15:57Z INFO CreateStepSummaryCommand] Step Summary file (C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\_runner_file_commands\step_summary_7e99ce56-52c9-442e-9dbc-a4f3ac8d0e34) is empty; skipping attachment upload
+[2025-11-13 16:15:57Z INFO StepsRunner] Step result: 
+[2025-11-13 16:15:57Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "actions/checkout",
+  "ref": "v4",
+  "type": "node20",
+  "stage": "Main",
+  "stepId": "6db892fc-f964-40db-87c6-d7ecb83e42e6",
+  "stepContextName": "__actions_checkout",
+  "hasPreStep": false,
+  "hasPostStep": true,
+  "result": "succeeded",
+  "errorMessages": [],
+  "executionTimeInSeconds": 4,
+  "startTime": "2025-11-13T16:15:54.7451815Z",
+  "finishTime": "2025-11-13T16:15:57.7620791Z"
+}.
+[2025-11-13 16:15:57Z INFO StepsRunner] No need for updating job result with current step result 'Succeeded'.
+[2025-11-13 16:15:57Z INFO StepsRunner] Current state: job state = ''
+[2025-11-13 16:15:57Z INFO StepsRunner] Processing step: DisplayName='Setup kubectl'
+[2025-11-13 16:15:57Z INFO StepsRunner] Evaluating: success()
+[2025-11-13 16:15:57Z INFO StepsRunner] Result: true
+[2025-11-13 16:15:57Z INFO StepsRunner] Starting the step.
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:57Z INFO StepsRunner] Which2: 'chcp'
+[2025-11-13 16:15:57Z INFO StepsRunner] Location: 'C:\WINDOWS\system32\chcp.COM'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper] Starting process:
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   File name: 'C:\WINDOWS\system32\chcp.COM'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Arguments: '65001'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Encoding web name:  ; code page: ''
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper] Process started with process id 6516, waiting for process exit.
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper] Finished process 6516 with exit code 0, and elapsed time 00:00:00.0065303.
+[2025-11-13 16:15:57Z INFO StepsRunner] Successfully returned to code page 65001 (UTF8)
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:57Z INFO ActionManager] Load action that reference repository from 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions\azure\setup-kubectl\v4'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:57Z INFO ActionManifestManager] Ignore action property branding.
+[2025-11-13 16:15:57Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Kubectl tool installer",
+  "description": "Install a specific version of kubectl binary. Acceptable values are latest or any semantic version string like 1.15.0",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 4,
+          "col": 4,
+          "lit": "version"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 7,
+          "col": 16,
+          "lit": "latest"
+        }
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": false,
+    "script": "lib/index.js",
+    "pre": null,
+    "post": null,
+    "nodeVersion": "node20",
+    "cleanupCondition": "always()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-11-13 16:15:57Z INFO ActionManager] Action pre node.js file: N/A.
+[2025-11-13 16:15:57Z INFO ActionManager] Action node.js file: lib/index.js.
+[2025-11-13 16:15:57Z INFO ActionManager] Action post node.js file: N/A.
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:57Z INFO ExecutionContext] Write event payload to C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\_github_workflow\event.json
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:57Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IFileCommandExtension'
+[2025-11-13 16:15:57Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IActionCommandExtension'
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command internal-set-repo-path
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command set-env
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command set-output
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command save-state
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command add-path
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command add-mask
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command add-matcher
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command remove-matcher
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command warning
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command error
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command notice
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command debug
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command group
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command endgroup
+[2025-11-13 16:15:57Z INFO ActionCommandManager] Register action command extension for command echo
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:57Z INFO HostContext] Well known directory 'Externals': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\externals'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper] Starting process:
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   File name: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\externals\node20\bin\node.exe'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Arguments: '"C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions\azure\setup-kubectl\v4\lib/index.js"'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\Projeto-Adrian\Projeto-Adrian'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Encoding web name: utf-8 ; code page: '65001'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-11-13 16:15:57Z INFO ProcessInvokerWrapper] Process started with process id 18884, waiting for process exit.
+[2025-11-13 16:15:57Z INFO JobServerQueue] Try to append 1 batches web console lines for record '6db892fc-f964-40db-87c6-d7ecb83e42e6', success rate: 1/1.
+[2025-11-13 16:15:57Z INFO JobServerQueue] Try to append 1 batches web console lines for record '9240e3a4-6753-479b-818f-d44b0a12d8c2', success rate: 1/1.
+[2025-11-13 16:15:58Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-11-13 16:15:58Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag\blocks\b93df2cd-40d6-44e4-94f7-aa3b34e02605_6db892fc-f964-40db-87c6-d7ecb83e42e6.1
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Finished process 18884 with exit code 0, and elapsed time 00:00:00.5204888.
+[2025-11-13 16:15:58Z INFO CreateStepSummaryCommand] Step Summary file (C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\_runner_file_commands\step_summary_eab2075f-52c7-4672-9c1e-79ead7f6d7f9) is empty; skipping attachment upload
+[2025-11-13 16:15:58Z INFO StepsRunner] Step result: 
+[2025-11-13 16:15:58Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "azure/setup-kubectl",
+  "ref": "v4",
+  "type": "node20",
+  "stage": "Main",
+  "stepId": "9240e3a4-6753-479b-818f-d44b0a12d8c2",
+  "stepContextName": "__azure_setup-kubectl",
+  "hasPreStep": false,
+  "hasPostStep": false,
+  "result": "succeeded",
+  "errorMessages": [],
+  "executionTimeInSeconds": 1,
+  "startTime": "2025-11-13T16:15:57.7627305Z",
+  "finishTime": "2025-11-13T16:15:58.2984216Z"
+}.
+[2025-11-13 16:15:58Z INFO JobServerQueue] Try to upload 1 log files or attachments, success rate: 1/1.
+[2025-11-13 16:15:58Z INFO StepsRunner] No need for updating job result with current step result 'Succeeded'.
+[2025-11-13 16:15:58Z INFO StepsRunner] Current state: job state = ''
+[2025-11-13 16:15:58Z INFO StepsRunner] Processing step: DisplayName='Configurar kubeconfig'
+[2025-11-13 16:15:58Z INFO StepsRunner] Evaluating: success()
+[2025-11-13 16:15:58Z INFO StepsRunner] Result: true
+[2025-11-13 16:15:58Z INFO StepsRunner] Starting the step.
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO StepsRunner] Which2: 'chcp'
+[2025-11-13 16:15:58Z INFO StepsRunner] Location: 'C:\WINDOWS\system32\chcp.COM'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Starting process:
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   File name: 'C:\WINDOWS\system32\chcp.COM'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Arguments: '65001'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Encoding web name:  ; code page: ''
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Process started with process id 19340, waiting for process exit.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Finished process 19340 with exit code 0, and elapsed time 00:00:00.0055841.
+[2025-11-13 16:15:58Z INFO StepsRunner] Successfully returned to code page 65001 (UTF8)
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:58Z INFO ExecutionContext] Write event payload to C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\_github_workflow\event.json
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:58Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IFileCommandExtension'
+[2025-11-13 16:15:58Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IActionCommandExtension'
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command internal-set-repo-path
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command set-env
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command set-output
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command save-state
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command add-path
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command add-mask
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command add-matcher
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command remove-matcher
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command warning
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command error
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command notice
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command debug
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command group
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command endgroup
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command echo
+[2025-11-13 16:15:58Z INFO ScriptHandler] Which2: 'powershell'
+[2025-11-13 16:15:58Z INFO ScriptHandler] Location: 'C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.EXE'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:58Z INFO ScriptHandler] Which2: 'powershell'
+[2025-11-13 16:15:58Z INFO ScriptHandler] Location: 'C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.EXE'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Starting process:
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   File name: 'C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.EXE'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Arguments: '-command ". 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\c128ff57-0d77-46de-8615-13235eeae38c.ps1'"'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\Projeto-Adrian\Projeto-Adrian'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Encoding web name:  ; code page: ''
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Process started with process id 14228, waiting for process exit.
+[2025-11-13 16:15:58Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'acc1606c-d9eb-44bb-af68-da4cb92f691b', success rate: 1/1.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Finished process 14228 with exit code 0, and elapsed time 00:00:00.2815028.
+[2025-11-13 16:15:58Z INFO CreateStepSummaryCommand] Step Summary file (C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\_runner_file_commands\step_summary_84483813-83c8-4d23-a35c-607ce149f434) is empty; skipping attachment upload
+[2025-11-13 16:15:58Z INFO StepsRunner] Step result: 
+[2025-11-13 16:15:58Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "powershell",
+  "type": "run",
+  "stage": "Main",
+  "stepId": "acc1606c-d9eb-44bb-af68-da4cb92f691b",
+  "stepContextName": "__run",
+  "result": "succeeded",
+  "errorMessages": [],
+  "executionTimeInSeconds": 1,
+  "startTime": "2025-11-13T16:15:58.2990994Z",
+  "finishTime": "2025-11-13T16:15:58.5992694Z"
+}.
+[2025-11-13 16:15:58Z INFO StepsRunner] No need for updating job result with current step result 'Succeeded'.
+[2025-11-13 16:15:58Z INFO StepsRunner] Current state: job state = ''
+[2025-11-13 16:15:58Z INFO StepsRunner] Processing step: DisplayName='Testar conexão com o cluster'
+[2025-11-13 16:15:58Z INFO StepsRunner] Evaluating: success()
+[2025-11-13 16:15:58Z INFO StepsRunner] Result: true
+[2025-11-13 16:15:58Z INFO StepsRunner] Starting the step.
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO StepsRunner] Which2: 'chcp'
+[2025-11-13 16:15:58Z INFO StepsRunner] Location: 'C:\WINDOWS\system32\chcp.COM'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Starting process:
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   File name: 'C:\WINDOWS\system32\chcp.COM'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Arguments: '65001'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Encoding web name:  ; code page: ''
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Process started with process id 3956, waiting for process exit.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Finished process 3956 with exit code 0, and elapsed time 00:00:00.0057493.
+[2025-11-13 16:15:58Z INFO StepsRunner] Successfully returned to code page 65001 (UTF8)
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:58Z INFO ExecutionContext] Write event payload to C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\_github_workflow\event.json
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:58Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IFileCommandExtension'
+[2025-11-13 16:15:58Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IActionCommandExtension'
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command internal-set-repo-path
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command set-env
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command set-output
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command save-state
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command add-path
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command add-mask
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command add-matcher
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command remove-matcher
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command warning
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command error
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command notice
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command debug
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command group
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command endgroup
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command echo
+[2025-11-13 16:15:58Z INFO ScriptHandler] Which2: 'powershell'
+[2025-11-13 16:15:58Z INFO ScriptHandler] Location: 'C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.EXE'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:58Z INFO ScriptHandler] Which2: 'powershell'
+[2025-11-13 16:15:58Z INFO ScriptHandler] Location: 'C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.EXE'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Starting process:
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   File name: 'C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.EXE'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Arguments: '-command ". 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\29cfc394-1b85-4746-9be4-2dacc43dbb9b.ps1'"'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\Projeto-Adrian\Projeto-Adrian'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Encoding web name:  ; code page: ''
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Process started with process id 13144, waiting for process exit.
+[2025-11-13 16:15:58Z INFO JobServerQueue] Tried to upload 1 file(s) to results, success rate: 1/1.
+[2025-11-13 16:15:58Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'acc1606c-d9eb-44bb-af68-da4cb92f691b', success rate: 1/1.
+[2025-11-13 16:15:58Z INFO JobServerQueue] Try to append 1 batches web console lines for record '54b87790-5cc2-4f62-beda-6900f693a877', success rate: 1/1.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Finished process 13144 with exit code 1, and elapsed time 00:00:00.2615151.
+[2025-11-13 16:15:58Z INFO CreateStepSummaryCommand] Step Summary file (C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\_runner_file_commands\step_summary_3e5bc5a9-a524-46dd-99d7-27998aac05e6) is empty; skipping attachment upload
+[2025-11-13 16:15:58Z INFO StepsRunner] Step result: Failed
+[2025-11-13 16:15:58Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "powershell",
+  "type": "run",
+  "stage": "Main",
+  "stepId": "54b87790-5cc2-4f62-beda-6900f693a877",
+  "stepContextName": "__run_2",
+  "result": "failed",
+  "errorMessages": [
+    "Process completed with exit code 1."
+  ],
+  "executionTimeInSeconds": 1,
+  "startTime": "2025-11-13T16:15:58.5998553Z",
+  "finishTime": "2025-11-13T16:15:58.8763586Z"
+}.
+[2025-11-13 16:15:58Z INFO StepsRunner] Update job result with current step result 'Failed'.
+[2025-11-13 16:15:58Z INFO StepsRunner] Current state: job state = 'Failed'
+[2025-11-13 16:15:58Z INFO StepsRunner] Processing step: DisplayName='Aplicar manifests do Kubernetes'
+[2025-11-13 16:15:58Z INFO StepsRunner] Evaluating: success()
+[2025-11-13 16:15:58Z INFO StepsRunner] Result: false
+[2025-11-13 16:15:58Z INFO StepsRunner] Skipping step due to condition evaluation.
+[2025-11-13 16:15:58Z INFO StepsRunner] No need for updating job result with current step result 'Skipped'.
+[2025-11-13 16:15:58Z INFO StepsRunner] Current state: job state = 'Failed'
+[2025-11-13 16:15:58Z INFO StepsRunner] Processing step: DisplayName='Post Checkout code'
+[2025-11-13 16:15:58Z INFO StepsRunner] Evaluating: always()
+[2025-11-13 16:15:58Z INFO StepsRunner] Result: true
+[2025-11-13 16:15:58Z INFO StepsRunner] Starting the step.
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO StepsRunner] Which2: 'chcp'
+[2025-11-13 16:15:58Z INFO StepsRunner] Location: 'C:\WINDOWS\system32\chcp.COM'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Starting process:
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   File name: 'C:\WINDOWS\system32\chcp.COM'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Arguments: '65001'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Encoding web name:  ; code page: ''
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Process started with process id 8160, waiting for process exit.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Finished process 8160 with exit code 0, and elapsed time 00:00:00.0054413.
+[2025-11-13 16:15:58Z INFO StepsRunner] Successfully returned to code page 65001 (UTF8)
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:58Z INFO ActionManager] Load action that reference repository from 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions\actions\checkout\v4'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Actions': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions'
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Checkout",
+  "description": "Checkout a Git repository at a particular version",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 4,
+          "col": 3,
+          "lit": "repository"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 6,
+          "col": 14,
+          "expr": "github.repository"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 7,
+          "col": 3,
+          "lit": "ref"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 12,
+          "col": 3,
+          "lit": "token"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 24,
+          "col": 14,
+          "expr": "github.token"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 25,
+          "col": 3,
+          "lit": "ssh-key"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 37,
+          "col": 3,
+          "lit": "ssh-known-hosts"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 42,
+          "col": 3,
+          "lit": "ssh-strict"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 47,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 48,
+          "col": 3,
+          "lit": "ssh-user"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 51,
+          "col": 14,
+          "lit": "git"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 52,
+          "col": 3,
+          "lit": "persist-credentials"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 54,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 55,
+          "col": 3,
+          "lit": "path"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 57,
+          "col": 3,
+          "lit": "clean"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 59,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 60,
+          "col": 3,
+          "lit": "filter"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 64,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 65,
+          "col": 3,
+          "lit": "sparse-checkout"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 69,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 70,
+          "col": 3,
+          "lit": "sparse-checkout-cone-mode"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 73,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 74,
+          "col": 3,
+          "lit": "fetch-depth"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 76,
+          "col": 14,
+          "lit": "1"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 77,
+          "col": 3,
+          "lit": "fetch-tags"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 79,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 80,
+          "col": 3,
+          "lit": "show-progress"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 82,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 83,
+          "col": 3,
+          "lit": "lfs"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 85,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 86,
+          "col": 3,
+          "lit": "submodules"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 94,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 95,
+          "col": 3,
+          "lit": "set-safe-directory"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 97,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 98,
+          "col": 3,
+          "lit": "github-server-url"
+        },
+        "value": ""
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": true,
+    "script": "dist/index.js",
+    "pre": null,
+    "post": "dist/index.js",
+    "nodeVersion": "node20",
+    "cleanupCondition": "always()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-11-13 16:15:58Z INFO ActionManager] Action pre node.js file: N/A.
+[2025-11-13 16:15:58Z INFO ActionManager] Action node.js file: dist/index.js.
+[2025-11-13 16:15:58Z INFO ActionManager] Action post node.js file: dist/index.js.
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:58Z INFO ExecutionContext] Write event payload to C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\_github_workflow\event.json
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Work': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Temp': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp'
+[2025-11-13 16:15:58Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IFileCommandExtension'
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'repository': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 6,
+  "col": 14,
+  "lit": "Antonyvs/Projeto-Adrian"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'ref': default value evaluate result: ""
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'token': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 24,
+  "col": 14,
+  "lit": "***"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'ssh-key': default value evaluate result: ""
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'ssh-known-hosts': default value evaluate result: ""
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'ssh-strict': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 47,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'ssh-user': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 51,
+  "col": 14,
+  "lit": "git"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'persist-credentials': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 54,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'path': default value evaluate result: ""
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'clean': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 59,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'filter': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 64,
+  "col": 14,
+  "lit": ""
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'sparse-checkout': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 69,
+  "col": 14,
+  "lit": ""
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'sparse-checkout-cone-mode': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 73,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'fetch-depth': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 76,
+  "col": 14,
+  "lit": "1"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'fetch-tags': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 79,
+  "col": 14,
+  "lit": "false"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'show-progress': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 82,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'lfs': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 85,
+  "col": 14,
+  "lit": "false"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'submodules': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 94,
+  "col": 14,
+  "lit": "false"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'set-safe-directory': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 97,
+  "col": 14,
+  "lit": "true"
+}
+[2025-11-13 16:15:58Z INFO ActionManifestManager] Input 'github-server-url': default value evaluate result: ""
+[2025-11-13 16:15:58Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IActionCommandExtension'
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command internal-set-repo-path
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command set-env
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command set-output
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command save-state
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command add-path
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command add-mask
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command add-matcher
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command remove-matcher
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command warning
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command error
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command notice
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command debug
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command group
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command endgroup
+[2025-11-13 16:15:58Z INFO ActionCommandManager] Register action command extension for command echo
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:15:58Z INFO HostContext] Well known directory 'Externals': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\externals'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Starting process:
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   File name: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\externals\node20\bin\node.exe'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Arguments: '"C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_actions\actions\checkout\v4\dist/index.js"'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\Projeto-Adrian\Projeto-Adrian'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Encoding web name: utf-8 ; code page: '65001'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-11-13 16:15:58Z INFO ProcessInvokerWrapper] Process started with process id 21712, waiting for process exit.
+[2025-11-13 16:15:59Z INFO AddMaskCommandExtension] Add new secret mask with length of 32
+[2025-11-13 16:15:59Z INFO JobServerQueue] Try to append 1 batches web console lines for record '54b87790-5cc2-4f62-beda-6900f693a877', success rate: 1/1.
+[2025-11-13 16:15:59Z INFO JobServerQueue] Try to append 1 batches web console lines for record '05e505d1-c8a3-49b9-8b53-492cc406ba06', success rate: 1/1.
+[2025-11-13 16:15:59Z INFO JobServerQueue] Try to append 1 batches web console lines for record '05e505d1-c8a3-49b9-8b53-492cc406ba06', success rate: 1/1.
+[2025-11-13 16:15:59Z INFO JobServerQueue] Try to upload 3 log files or attachments, success rate: 3/3.
+[2025-11-13 16:15:59Z INFO JobServerQueue] Try to append 1 batches web console lines for record '05e505d1-c8a3-49b9-8b53-492cc406ba06', success rate: 1/1.
+[2025-11-13 16:15:59Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-11-13 16:15:59Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag\blocks\b93df2cd-40d6-44e4-94f7-aa3b34e02605_9240e3a4-6753-479b-818f-d44b0a12d8c2.1
+[2025-11-13 16:15:59Z INFO JobServerQueue] Try to append 1 batches web console lines for record '05e505d1-c8a3-49b9-8b53-492cc406ba06', success rate: 1/1.
+[2025-11-13 16:16:00Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:16:00Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-11-13 16:16:00Z INFO ProcessInvokerWrapper] Finished process 21712 with exit code 0, and elapsed time 00:00:01.1450988.
+[2025-11-13 16:16:00Z INFO CreateStepSummaryCommand] Step Summary file (C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp\_runner_file_commands\step_summary_f7a96692-8956-4391-94b8-f0fc3467f350) is empty; skipping attachment upload
+[2025-11-13 16:16:00Z INFO StepsRunner] Step result: 
+[2025-11-13 16:16:00Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "actions/checkout",
+  "ref": "v4",
+  "type": "node20",
+  "stage": "Post",
+  "stepId": "05e505d1-c8a3-49b9-8b53-492cc406ba06",
+  "result": "succeeded",
+  "errorMessages": [],
+  "executionTimeInSeconds": 2,
+  "startTime": "2025-11-13T16:15:58.8778942Z",
+  "finishTime": "2025-11-13T16:16:00.0369979Z"
+}.
+[2025-11-13 16:16:00Z INFO StepsRunner] No need for updating job result with current step result 'Succeeded'.
+[2025-11-13 16:16:00Z INFO StepsRunner] Current state: job state = 'Failed'
+[2025-11-13 16:16:00Z INFO JobRunner] Finalize job.
+[2025-11-13 16:16:00Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:16:00Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:16:00Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:16:00Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:16:00Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:16:00Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:16:00Z INFO JobExtension] Initialize Env context
+[2025-11-13 16:16:00Z INFO JobExtension] Initialize steps context
+[2025-11-13 16:16:00Z INFO JobExtension] Total accessible running process: 307.
+[2025-11-13 16:16:00Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "complete_job",
+  "type": "runner",
+  "stage": "Post",
+  "stepId": "b7919a0a-2383-44cb-861c-8ecdfbf46c83",
+  "result": "succeeded",
+  "errorMessages": [],
+  "executionTimeInSeconds": 1,
+  "startTime": "2025-11-13T16:16:00.0399673Z",
+  "finishTime": "2025-11-13T16:16:00.0445111Z"
+}.
+[2025-11-13 16:16:00Z INFO JobRunner] Job result after all job steps finish: Failed
+[2025-11-13 16:16:00Z INFO JobRunner] Completing the job execution context.
+[2025-11-13 16:16:00Z INFO JobRunner] Shutting down the job server queue.
+[2025-11-13 16:16:00Z INFO JobServerQueue] Fire signal to shutdown all queues.
+[2025-11-13 16:16:00Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-11-13 16:16:00Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag\blocks\b93df2cd-40d6-44e4-94f7-aa3b34e02605_acc1606c-d9eb-44bb-af68-da4cb92f691b.1
+[2025-11-13 16:16:00Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-11-13 16:16:00Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag\blocks\b93df2cd-40d6-44e4-94f7-aa3b34e02605_54b87790-5cc2-4f62-beda-6900f693a877.1
+[2025-11-13 16:16:01Z INFO JobServerQueue] Tried to upload 3 file(s) to results, success rate: 3/3.
+[2025-11-13 16:16:02Z INFO JobServerQueue] All queue process task stopped.
+[2025-11-13 16:16:02Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'b7919a0a-2383-44cb-861c-8ecdfbf46c83', success rate: 1/1.
+[2025-11-13 16:16:02Z INFO JobServerQueue] Web console line queue drained.
+[2025-11-13 16:16:02Z INFO JobServerQueue] Uploading 3 files in one shot.
+[2025-11-13 16:16:02Z INFO JobServerQueue] Try to upload 3 log files or attachments, success rate: 3/3.
+[2025-11-13 16:16:02Z INFO JobServerQueue] File upload queue drained.
+[2025-11-13 16:16:02Z INFO JobServerQueue] Starting results-based upload queue...
+[2025-11-13 16:16:02Z INFO JobServerQueue] Uploading 3 file(s) in one shot through results service.
+[2025-11-13 16:16:02Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-11-13 16:16:02Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag\blocks\b93df2cd-40d6-44e4-94f7-aa3b34e02605_05e505d1-c8a3-49b9-8b53-492cc406ba06.1
+[2025-11-13 16:16:02Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-11-13 16:16:02Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag\blocks\b93df2cd-40d6-44e4-94f7-aa3b34e02605_b7919a0a-2383-44cb-861c-8ecdfbf46c83.1
+[2025-11-13 16:16:03Z INFO JobServerQueue] Got a job log file to send to results service.
+[2025-11-13 16:16:03Z INFO JobServerQueue] Starting upload of job log file to results service ResultsLog, C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag\blocks\b93df2cd-40d6-44e4-94f7-aa3b34e02605_378061c3-292d-598a-8ee6-f81a51af7751.1
+[2025-11-13 16:16:03Z INFO JobServerQueue] Tried to upload 3 file(s) to results, success rate: 3/3.
+[2025-11-13 16:16:03Z INFO JobServerQueue] Results upload queue drained.
+[2025-11-13 16:16:03Z INFO JobServerQueue] Timeline update queue drained.
+[2025-11-13 16:16:03Z INFO JobServerQueue] Disposing job server ...
+[2025-11-13 16:16:03Z INFO JobServerQueue] Disposing results server ...
+[2025-11-13 16:16:03Z INFO JobServerQueue] All queue process tasks have been stopped, and all queues are drained.
+[2025-11-13 16:16:03Z INFO TempDirectoryManager] Cleaning runner temp folder: C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_work\_temp
+[2025-11-13 16:16:03Z INFO HostContext] Well known directory 'Bin': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\bin'
+[2025-11-13 16:16:03Z INFO HostContext] Well known directory 'Root': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner'
+[2025-11-13 16:16:03Z INFO HostContext] Well known directory 'Diag': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag'
+[2025-11-13 16:16:03Z INFO HostContext] Well known config file 'Telemetry': 'C:\Users\anton\OneDrive\Documentos\GitHub\Projeto-Adrian\actions-runner\_diag\.telemetry'
+[2025-11-13 16:16:03Z INFO JobRunner] Raising job completed against run service
+[2025-11-13 16:16:04Z INFO Worker] Job completed.

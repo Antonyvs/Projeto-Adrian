@@ -11,17 +11,26 @@ env:
 
 jobs:
   build-push:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
+      # Passo 1: Fazer checkout do repositório
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Passo 2: Login no DockerHub
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # Passo 3: Decodificar o kubeconfig do segredo base64 e configurar o kubectl
+      - name: Setup kubeconfig
+        run: |
+          echo "$KUBECONFIG_CONTENT" | base64 --decode > ~/.kube/config
+          kubectl config use-context minikube  # Seleciona o contexto minikube
+
+      # Passo 4: Build e Push da imagem do monitor
       - name: Build & Push monitor image
         uses: docker/build-push-action@v6
         with:
@@ -30,6 +39,7 @@ jobs:
           push: true
           tags: ${{ env.MONITOR_IMAGE }}
 
+      # Passo 5: Build e Push da imagem do nginx
       - name: Build & Push nginx image
         uses: docker/build-push-action@v6
         with:

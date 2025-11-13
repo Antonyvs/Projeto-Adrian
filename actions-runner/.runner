@@ -1,0 +1,11 @@
+﻿{
+  "agentId": 21,
+  "agentName": "NITRO_V15",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelinesghubeus4.actions.githubusercontent.com/BMeOTxf033MrFwyEFBiojZmjBfoA49lpJpqSzAgY1tq5QsMlsW/",
+  "gitHubUrl": "https://github.com/Antonyvs/Projeto-Adrian",
+  "workFolder": "_work",
+  "useV2Flow": true,
+  "serverUrlV2": "https://broker.actions.githubusercontent.com/"
+}

@@ -1,0 +1,12 @@
+﻿{
+  "repositoryName": "Antonyvs/Projeto-Adrian",
+  "pipelineDirectory": "Projeto-Adrian",
+  "workspaceDirectory": "Projeto-Adrian\\Projeto-Adrian",
+  "repositories": {
+    "Antonyvs/Projeto-Adrian": {
+      "repositoryPath": "Projeto-Adrian\\Projeto-Adrian",
+      "lastRunOn": "11/13/2025 12:56:22 -03:00"
+    }
+  },
+  "lastRunOn": "11/13/2025 13:45:28 -03:00"
+}
