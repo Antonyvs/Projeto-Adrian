@@ -1,44 +1,112 @@
-﻿name: CD - Deploy to Kubernetes
+﻿name: CD
 
 on:
-  workflow_run:
-    workflows: ["CI - Build & Push Docker"]
-    types:
-      - completed
-  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: cd-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: [self-hosted, windows]
+
+    env:
+      K8S_NAMESPACE: default   # namespace alvo
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup kubectl
-        uses: azure/setup-kubectl@v4
-        with:
-          version: 'latest'
-
-      - name: Configurar kubeconfig
+      - name: Ensure kubectl (Windows)
         shell: powershell
         run: |
-          $path = "$HOME\.kube"
-          if (!(Test-Path $path)) { New-Item -ItemType Directory -Force -Path $path | Out-Null }
-          [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("${{ secrets.KUBE_CONFIG }}")) | Out-File "$path\config" -Encoding utf8
-          Write-Host "✅ Kubeconfig criado em $path\config"
-          kubectl config get-contexts
+          $ErrorActionPreference = 'Stop'
+          if (-not (Get-Command kubectl -ErrorAction SilentlyContinue)) {
+            Write-Host "kubectl não encontrado. Instalando..."
+            Invoke-WebRequest -UseBasicParsing -Uri https://dl.k8s.io/release/stable.txt -OutFile stable.txt
+            $ver = Get-Content stable.txt
+            $url = "https://dl.k8s.io/release/$ver/bin/windows/amd64/kubectl.exe"
+            $bin = Join-Path $env:RUNNER_TEMP "bin"
+            New-Item -ItemType Directory -Force -Path $bin | Out-Null
+            Invoke-WebRequest -UseBasicParsing -Uri $url -OutFile (Join-Path $bin "kubectl.exe")
+            "$bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding ascii -Append
+          }
+          kubectl version --client=true
 
-      - name: Testar conexão com o cluster
+      - name: Check/Start Minikube
         shell: powershell
         run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not (Get-Command minikube -ErrorAction SilentlyContinue)) {
+            throw "Minikube não está instalado no runner. Instale no mesmo host."
+          }
+          $status = minikube status --output=json | ConvertFrom-Json
+          if ($status.Host -ne 'Running' -or $status.Kubelet -ne 'Running' -or $status.APIServer -ne 'Running') {
+            Write-Host "Minikube não está ativo. Iniciando..."
+            minikube start --driver=docker
+          }
+          minikube status
+
+      - name: Prepare kubeconfig
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $localCfg = Join-Path $env:USERPROFILE ".kube\config"
+          $tempDir  = Join-Path $env:RUNNER_TEMP ".kube"
+          $tempCfg  = Join-Path $tempDir "config"
+          New-Item -ItemType Directory -Force -Path $tempDir | Out-Null
+
+          if (Test-Path $localCfg) {
+            Copy-Item $localCfg $tempCfg -Force
+          } else {
+            minikube update-context
+            Copy-Item (Join-Path $env:USERPROFILE ".kube\config") $tempCfg -Force
+          }
+
+          "KUBECONFIG=$tempCfg" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+          $ctx = kubectl config current-context
+          Write-Host "Contexto atual: $ctx"
+          $server = kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}'
+          Write-Host "API Server: $server"
+
+      - name: Verify cluster connectivity
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
           kubectl cluster-info
-          kubectl get nodes
+          kubectl get nodes -o wide
 
-      - name: Aplicar manifests do Kubernetes
+      - name: Diff (pre)
+        shell: powershell
+        continue-on-error: true
+        run: |
+          kubectl -n $env:K8S_NAMESPACE diff -f k8s/ | Out-Host
+
+      - name: Apply manifests
         shell: powershell
         run: |
-          kubectl apply -f k8s/ --validate=false
-          kubectl rollout status deployment/monitor || exit 0
-          kubectl rollout status deployment/nginx || exit 0
-          kubectl get pods -o wide
+          kubectl -n $env:K8S_NAMESPACE apply -f k8s/
+
+      - name: Wait rollout (all deployments)
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $list = kubectl -n $env:K8S_NAMESPACE get deploy -o jsonpath='{range .items[*]}{.metadata.name}{"`n"}{end}'
+          $names = $list -split "`n" | Where-Object { $_ -and $_.Trim().Length -gt 0 }
+          if (-not $names -or $names.Count -eq 0) {
+            Write-Host "Nenhum Deployment encontrado no namespace '$env:K8S_NAMESPACE'. Pulando espera de rollout."
+            exit 0
+          }
+          foreach ($d in $names) {
+            Write-Host "Aguardando rollout do Deployment '$d'..."
+            kubectl -n $env:K8S_NAMESPACE rollout status deployment/$d --timeout=180s
+          }
+
+      - name: Post status
+        shell: powershell
+        run: |
+          kubectl -n $env:K8S_NAMESPACE get all -o wide
+          kubectl -n $env:K8S_NAMESPACE get events --sort-by=.lastTimestamp | Select-Object -Last 80 | Out-Host
