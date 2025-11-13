@@ -20,11 +20,18 @@ jobs:
 
       - name: Set up Kubeconfig
         run: |
-          # Criação do diretório .kube, caso não exista
+          # Criar diretório .kube se não existir
           mkdir -p $HOME/.kube
-          
-          # Decodificando e salvando o arquivo kubeconfig
+
+          # Decodificar e configurar o kubeconfig
           echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
+          
+          # Decodificar os arquivos de certificados e chaves
+          echo "${{ secrets.KUBE_CLIENT_CERT }}" | base64 --decode > $HOME/.kube/client.crt
+          echo "${{ secrets.KUBE_CLIENT_KEY }}" | base64 --decode > $HOME/.kube/client.key
+          
+          # Decodificar o certificado da CA (usando apiserver.crt como CA)
+          echo "${{ secrets.KUBE_CA_CERT }}" | base64 --decode > $HOME/.kube/ca.crt
 
       - name: Deploy to Kubernetes
         run: |
