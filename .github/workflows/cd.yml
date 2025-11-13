@@ -20,6 +20,10 @@ jobs:
 
       - name: Set up Kubeconfig
         run: |
+          # Criação do diretório .kube, caso não exista
+          mkdir -p $HOME/.kube
+          
+          # Decodificando e salvando o arquivo kubeconfig
           echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
 
       - name: Deploy to Kubernetes
