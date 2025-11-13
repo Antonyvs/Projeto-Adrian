@@ -1,38 +1,26 @@
-﻿name: CD - Deploy to Kubernetes
+﻿name: CD - Deploy to Minikube
 
 on:
-  workflow_run:
-    workflows: ["CI - Build & Push Docker"]
-    types:
-      - completed
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
 
-      - name: Configure kubectl
-        uses: azure/setup-kubectl@v4
-        with:
-          version: latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Kubeconfig
         run: |
-          # Criar diretório .kube se não existir
-          mkdir -p $HOME/.kube
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > ~/.kube/config
 
-          # Decodificar e configurar o kubeconfig
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
-          
-          # Decodificar os arquivos de certificados e chaves
-          echo "${{ secrets.KUBE_CLIENT_CERT }}" | base64 --decode > $HOME/.kube/client.crt
-          echo "${{ secrets.KUBE_CLIENT_KEY }}" | base64 --decode > $HOME/.kube/client.key
-          
-          # Decodificar o certificado da CA (usando apiserver.crt como CA)
-          echo "${{ secrets.KUBE_CA_CERT }}" | base64 --decode > $HOME/.kube/ca.crt
+      - name: Verify cluster
+        run: kubectl get nodes
 
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f k8s/
+      - name: Apply Kubernetes manifests
+        run: kubectl apply -f k8s/
